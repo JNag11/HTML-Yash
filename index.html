@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Year & Day Countdown</title>
+  <title>Live Countdown: 2025 & Today</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -23,59 +23,68 @@
     h2 {
       color: #00e676;
     }
+    p {
+      font-size: 1.2em;
+    }
   </style>
 </head>
 <body>
   <div class="box">
-    <h2>Time Left in 2025</h2>
-    <p id="daysLeft"></p>
-    <p id="monthsLeft"></p>
+    <h2>Countdown to End of 2025</h2>
+    <p id="yearCountdown"></p>
   </div>
 
   <div class="box">
-    <h2>Time Left Today</h2>
-    <p id="hoursLeft"></p>
+    <h2>Countdown to End of Today</h2>
+    <p id="dayCountdown"></p>
     <p id="timeMessage"></p>
   </div>
 
   <script>
     function updateCountdown() {
       const now = new Date();
-      const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59);
 
-      // Days left in the year
-      const msLeft = endOfYear - now;
-      const daysLeft = Math.floor(msLeft / (1000 * 60 * 60 * 24));
-      const months = Math.floor(daysLeft / 30);
-      const remDays = daysLeft % 30;
+      // Countdown to end of 2025
+      const endOfYear = new Date(2025, 11, 31, 23, 59, 59);
+      let msLeftYear = endOfYear - now;
 
-      document.getElementById("daysLeft").innerText = `Days left: ${daysLeft} days`;
-      document.getElementById("monthsLeft").innerText = About ${months} months and ${remDays} days (approx ${Math.floor(msLeft / (1000 * 60 * 60))} hours);
+      const days = Math.floor(msLeftYear / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((msLeftYear % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((msLeftYear % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((msLeftYear % (1000 * 60)) / 1000);
 
-      // Time left today
+      document.getElementById("yearCountdown").innerText = 
+        `${days} days ${hours} hrs ${minutes} mins ${seconds} secs`;
+
+      // Countdown to end of today
       const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
-      const msTodayLeft = endOfDay - now;
-      const hoursLeft = Math.floor(msTodayLeft / (1000 * 60 * 60));
-      const minsLeft = Math.floor((msTodayLeft % (1000 * 60 * 60)) / (1000 * 60));
+      let msLeftToday = endOfDay - now;
 
-      document.getElementById("hoursLeft").innerText = Time left today: ${hoursLeft} hrs ${minsLeft} mins;
+      const h = Math.floor(msLeftToday / (1000 * 60 * 60));
+      const m = Math.floor((msLeftToday % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((msLeftToday % (1000 * 60)) / 1000);
 
+      document.getElementById("dayCountdown").innerText = 
+        `${h} hrs ${m} mins ${s} secs`;
+
+      // Time-of-day message
       const currentHour = now.getHours();
       let message = "";
 
       if (currentHour < 12) {
-        message = "It's morning: You have around 16 hours left today!";
+        message = "Good morning! A full day ahead.";
       } else if (currentHour < 18) {
-        message = "It's afternoon: You have around 10 hours left today!";
+        message = "Good afternoon! Keep going strong.";
       } else {
-        message = "It's evening: You have around 4 hours left today!";
+        message = "Good evening! Day is winding down.";
       }
 
       document.getElementById("timeMessage").innerText = message;
     }
 
+    // Initial call + auto update every second
     updateCountdown();
-    setInterval(updateCountdown, 60000); // updates every minute
+    setInterval(updateCountdown, 1000);
   </script>
 </body>
 </html>
