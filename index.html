@@ -32,6 +32,7 @@
   <div class="box">
     <h2>Countdown to End of 2025</h2>
     <p id="yearCountdown"></p>
+    <p id="yearExtras"></p>
   </div>
 
   <div class="box">
@@ -48,6 +49,9 @@
       const endOfYear = new Date(2025, 11, 31, 23, 59, 59);
       let msLeftYear = endOfYear - now;
 
+      const totalSeconds = Math.floor(msLeftYear / 1000);
+      const totalMinutes = Math.floor(msLeftYear / (1000 * 60));
+      const totalHours = Math.floor(msLeftYear / (1000 * 60 * 60));
       const days = Math.floor(msLeftYear / (1000 * 60 * 60 * 24));
       const hours = Math.floor((msLeftYear % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((msLeftYear % (1000 * 60 * 60)) / (1000 * 60));
@@ -55,6 +59,9 @@
 
       document.getElementById("yearCountdown").innerText = 
         `${days} days ${hours} hrs ${minutes} mins ${seconds} secs`;
+
+      document.getElementById("yearExtras").innerText = 
+        `Total left: ${totalHours} hours or ${totalMinutes} minutes`;
 
       // Countdown to end of today
       const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
