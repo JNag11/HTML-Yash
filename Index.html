@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Year & Day Countdown</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    .box {
+      background: #222;
+      padding: 20px;
+      margin: 10px auto;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    h2 {
+      color: #00e676;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Time Left in 2025</h2>
+    <p id="daysLeft"></p>
+    <p id="monthsLeft"></p>
+  </div>
+
+  <div class="box">
+    <h2>Time Left Today</h2>
+    <p id="hoursLeft"></p>
+    <p id="timeMessage"></p>
+  </div>
+
+  <script>
+    function updateCountdown() {
+      const now = new Date();
+      const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59);
+
+      // Days left in the year
+      const msLeft = endOfYear - now;
+      const daysLeft = Math.floor(msLeft / (1000 * 60 * 60 * 24));
+      const months = Math.floor(daysLeft / 30);
+      const remDays = daysLeft % 30;
+
+      document.getElementById("daysLeft").innerText = Days left: ${daysLeft} days;
+      document.getElementById("monthsLeft").innerText = About ${months} months and ${remDays} days (approx ${Math.floor(msLeft / (1000 * 60 * 60))} hours);
+
+      // Time left today
+      const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+      const msTodayLeft = endOfDay - now;
+      const hoursLeft = Math.floor(msTodayLeft / (1000 * 60 * 60));
+      const minsLeft = Math.floor((msTodayLeft % (1000 * 60 * 60)) / (1000 * 60));
+
+      document.getElementById("hoursLeft").innerText = Time left today: ${hoursLeft} hrs ${minsLeft} mins;
+
+      const currentHour = now.getHours();
+      let message = "";
+
+      if (currentHour < 12) {
+        message = "It's morning: You have around 16 hours left today!";
+      } else if (currentHour < 18) {
+        message = "It's afternoon: You have around 10 hours left today!";
+      } else {
+        message = "It's evening: You have around 4 hours left today!";
+      }
+
+      document.getElementById("timeMessage").innerText = message;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 60000); // updates every minute
+  </script>
+</body>
+</html>
